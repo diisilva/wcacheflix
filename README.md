@@ -1,4 +1,8 @@
-# wcacheflix
+<p align="center">
+  <img src="assets/logo.png" alt="WCacheFlix — by DiegoS | PietroS" width="440">
+</p>
+
+<h1 align="center">wcacheflix</h1>
 
 Servidor de mídia **Jellyfin** em Docker sobre **Ubuntu**, para rodar num
 notebook, mini-PC ou desktop reaproveitado. Mídia em disco dedicado, subida
