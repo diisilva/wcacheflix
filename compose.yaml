@@ -1,0 +1,42 @@
+name: wcacheflix
+
+# Servidor de mídia Jellyfin em Docker.
+# Variáveis lidas de ./.env (veja .env.example). Gere o .env com:
+#   ./scripts/05-generate-env.sh
+services:
+  wcacheflix:
+    image: jellyfin/jellyfin:latest
+    container_name: wcacheflix
+
+    # Roda como o seu usuário, não como root.
+    user: "${PUID}:${PGID}"
+
+    # Concede o grupo "render" para a aceleração de hardware Intel/AMD.
+    # Se a máquina não tiver GPU compatível, deixe RENDER_GID vazio no .env
+    # e remova também o bloco "devices" abaixo.
+    group_add:
+      - "${RENDER_GID}"
+
+    # Rede do host: Jellyfin publica a porta 8096 direto na máquina.
+    network_mode: host
+
+    volumes:
+      - /srv/wcacheflix/config:/config
+      - /srv/wcacheflix/cache:/cache
+      # Mídia entra somente leitura: o container nunca altera seus arquivos.
+      - /srv/wcacheflix/media:/media:ro
+
+    # Aceleração de hardware. Remova se não houver GPU com /dev/dri/renderD128.
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+
+    # O systemd (wcacheflix.service) é quem sobe e derruba o serviço no boot,
+    # mas isto garante o restart caso o container caia sozinho.
+    restart: unless-stopped
+
+    # Impede que o log do container cresça sem limite no SSD.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,21 @@
+# -----------------------------------------------------------------------------
+# Pasta local — nunca versionar.
+# Contém o roteiro e os scripts Python de cópia/organização de mídia que
+# rodam apenas nesta máquina (origens específicas, discos específicos).
+# O projeto público não precisa deles para ser replicado.
+# -----------------------------------------------------------------------------
+/docs/
+
+# Ambiente e segredos
+.env
+*.local
+secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+*.swp
